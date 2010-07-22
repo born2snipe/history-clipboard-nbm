@@ -16,47 +16,46 @@ package b2s.clipboard.history;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.openide.DialogDescriptor;
-import org.openide.DialogDisplayer;
+import java.util.List;
 import org.openide.actions.PasteAction;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.datatransfer.ExClipboard;
 
 public class PasteFromHistoryAction implements ActionListener   {
-    private static final ClipboardHistory CLIPBOARD_HISTORY = ClipboardHistoryInstaller.CLIPBOARD_HISTORY;
+    private ClipboardHistory clipboardHistory;
     private ExClipboard clipboard;
     private PasteAction pasteAction;
+    private HistoryDialogDisplayer dialogDisplayer;
 
     public PasteFromHistoryAction() {
+        dialogDisplayer = new HistoryDialogDisplayer();
+        clipboardHistory = ClipboardHistoryInstaller.CLIPBOARD_HISTORY;
         clipboard = Lookup.getDefault().lookup(ExClipboard.class);
 //        pasteAction = Lookup.getDefault().lookup(PasteAction.class);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (CLIPBOARD_HISTORY.hasContents()) {
-            ClipboardHistoryPanel clipboardHistoryPanel = new ClipboardHistoryPanel(CLIPBOARD_HISTORY);
-
-            DialogDescriptor descriptor = new DialogDescriptor(
-                    clipboardHistoryPanel,
-                    "Choose Content to Paste",
-                    true,
-                    DialogDescriptor.OK_CANCEL_OPTION,
-                    DialogDescriptor.OK_OPTION,
-                    null
-            );
-            if (DialogDescriptor.OK_OPTION == DialogDisplayer.getDefault().notify(descriptor)) {
-                int row = clipboardHistoryPanel.getSelectedRow();
-                updateClipboardContent(row);
+        if (clipboardHistory.hasContents()) {
+            int row = dialogDisplayer.display(clipboardHistory);
+            if (row >= 0) {
+                clipboardHistory.moveToTop(row);
+                StringSelection string = new StringSelection(clipboardHistory.top());
+                clipboard.setContents(string, string);
             }
         }
     }
 
-    private void updateClipboardContent(int row) {
-        CLIPBOARD_HISTORY.moveToTop(row);
-        StringSelection string = new StringSelection(CLIPBOARD_HISTORY.toList().get(0));
-        clipboard.setContents(string, string);
+    void setHistoryDialogDisplayer(HistoryDialogDisplayer dialogDisplayer) {
+        this.dialogDisplayer = dialogDisplayer;
     }
 
+    void setClipboardHistory(ClipboardHistory clipboardHistory) {
+        this.clipboardHistory = clipboardHistory;
+    }
+
+    void setClipboard(ExClipboard clipboard) {
+        this.clipboard = clipboard;
+    }
 }

@@ -52,4 +52,8 @@ public class ClipboardHistory {
     public boolean hasContents() {
         return contents.size() > 0;
     }
+
+    public String top() {
+        return contents.getFirst();
+    }
 }

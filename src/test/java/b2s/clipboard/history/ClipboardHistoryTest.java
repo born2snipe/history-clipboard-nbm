@@ -73,5 +73,6 @@ public class ClipboardHistoryTest {
 
         assertEquals(Arrays.asList("text2", "text"), history.toList());
         assertTrue(history.hasContents());
+        assertEquals("text2", history.top());
     }
 }

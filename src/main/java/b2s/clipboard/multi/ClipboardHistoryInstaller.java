@@ -31,18 +31,21 @@ public class ClipboardHistoryInstaller extends ModuleInstall implements Clipboar
         CLIPBOARD_HISTORY = new ClipboardHistory();
         ExClipboard clipboard = Lookup.getDefault().lookup(ExClipboard.class);
         clipboard.addClipboardListener(this);
+        addClipboardContentsToHistory(clipboard);
     }
 
     @Override
     public void clipboardChanged(ClipboardEvent ce) {
+        addClipboardContentsToHistory(ce.getClipboard());
+    }
+
+    private void addClipboardContentsToHistory(ExClipboard clipboard) {
         try {
-            ExClipboard clipboard = ce.getClipboard();
             Transferable contents = clipboard.getContents(null);
             CLIPBOARD_HISTORY.add((String) contents.getTransferData(DataFlavor.stringFlavor));
         } catch (UnsupportedFlavorException ex) {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-
     }
 }

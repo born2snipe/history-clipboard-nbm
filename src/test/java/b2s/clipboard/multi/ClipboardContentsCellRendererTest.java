@@ -32,28 +32,39 @@ public class ClipboardContentsCellRendererTest {
     }
 
     @Test
+    public void removeLeadingWhitespaceButNotSpacesInTheMiddleOfWords() {
+        assertCellText("hello world", "hello world");
+    }
+
+    @Test
+    public void removeLeadingWhitespace() {
+        assertCellText("text", "    text");
+    }
+    
+    @Test
     public void hasNewLineWithFollowingText() {
-        JLabel label = (JLabel) renderer.getTableCellRendererComponent(jtable, "text\nmore text", true, true, 0, 0);
-        assertEquals("text...", label.getText());
+        assertCellText("text...", "text\nmore text");
     }
 
 
     @Test
     public void hasNewLine_Windows() {
-        JLabel label = (JLabel) renderer.getTableCellRendererComponent(jtable, "text\r\n", true, true, 0, 0);
-        assertEquals("text...", label.getText());
+        assertCellText("text...", "text\r\n");
     }
 
     @Test
     public void hasNewLine_Unix() {
-        JLabel label = (JLabel) renderer.getTableCellRendererComponent(jtable, "text\n", true, true, 0, 0);
-        assertEquals("text...", label.getText());
+        assertCellText("text...", "text\n");
     }
 
     @Test
     public void simpleText() {
-        JLabel label = (JLabel) renderer.getTableCellRendererComponent(jtable, "text", true, true, 0, 0);
-        assertEquals("text", label.getText());
+        assertCellText("text", "text");
+    }
+
+    private void assertCellText(String expectedRenderedText, String originalText) {
+        JLabel label = (JLabel) renderer.getTableCellRendererComponent(jtable, originalText, true, true, 0, 0);
+        assertEquals(expectedRenderedText, label.getText());
     }
 
 }

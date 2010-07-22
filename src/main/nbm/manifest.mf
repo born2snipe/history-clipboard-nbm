@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Localizing-Bundle: b2s/clipboard/multi/Bundle.properties
+OpenIDE-Module-Layer: b2s/clipboard/multi/layer.xml

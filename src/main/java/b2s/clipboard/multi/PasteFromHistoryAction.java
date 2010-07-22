@@ -13,27 +13,14 @@
 
 package b2s.clipboard.multi;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
-import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
-import org.openide.util.datatransfer.ClipboardEvent;
-import org.openide.util.datatransfer.ClipboardListener;
-import org.openide.util.datatransfer.ExClipboard;
 
-public class PasteFromHistoryAction implements ActionListener, ClipboardListener  {
-    private static final ClipboardHistory CLIPBOARD_HISTORY = new ClipboardHistory();
-
-    public PasteFromHistoryAction() {
-        ExClipboard clipboard = Lookup.getDefault().lookup(ExClipboard.class);
-        clipboard.addClipboardListener(this);
-    }
+public class PasteFromHistoryAction implements ActionListener  {
+    private static final ClipboardHistory CLIPBOARD_HISTORY = ClipboardHistoryInstaller.CLIPBOARD_HISTORY;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -41,25 +28,10 @@ public class PasteFromHistoryAction implements ActionListener, ClipboardListener
                 new ClipboardHistoryPanel(CLIPBOARD_HISTORY),
                 "Choose Content to Paste",
                 true,
-                new Object[]{DialogDescriptor.OK_OPTION, DialogDescriptor.CANCEL_OPTION},
+                DialogDescriptor.OK_CANCEL_OPTION,
                 DialogDescriptor.OK_OPTION,
-                DialogDescriptor.DEFAULT_ALIGN,
-                null,
                 null
         );
         DialogDisplayer.getDefault().notify(descriptor);
-    }
-
-    @Override
-    public void clipboardChanged(ClipboardEvent ce) {
-        try {
-            ExClipboard clipboard = ce.getClipboard();
-            Transferable contents = clipboard.getContents(null);
-            CLIPBOARD_HISTORY.add((String) contents.getTransferData(DataFlavor.stringFlavor));
-        } catch (UnsupportedFlavorException ex) {
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        
     }
 }

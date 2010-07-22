@@ -13,6 +13,7 @@
 
 package b2s.clipboard.multi;
 
+import java.awt.event.KeyListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -33,6 +34,8 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
         idColumn.setMaxWidth(ID_WIDTH);
         idColumn.setMinWidth(ID_WIDTH);
 
+        clipboardEntries.getColumnModel().getColumn(1).setCellRenderer(new ClipboardContentsCellRenderer());
+
         clipboardEntries.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -45,6 +48,10 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
                 content.setCaretPosition(0);
             }
         });
+
+        for (KeyListener keyListener : clipboardEntries.getKeyListeners()) {
+            clipboardEntries.removeKeyListener(keyListener);
+        }
 
     }
 
@@ -74,9 +81,11 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
 
             }
         ));
+        clipboardEntries.setIntercellSpacing(new java.awt.Dimension(0, 0));
         clipboardEntries.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         clipboardEntries.setShowHorizontalLines(false);
         clipboardEntries.setShowVerticalLines(false);
+        clipboardEntries.setSurrendersFocusOnKeystroke(true);
         clipboardEntries.setTableHeader(null);
         jScrollPane1.setViewportView(clipboardEntries);
 

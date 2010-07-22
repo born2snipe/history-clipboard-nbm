@@ -15,7 +15,13 @@ package b2s.clipboard.multi;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.FocusManager;
+import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -69,15 +75,10 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
             clipboardEntries.setRowSelectionInterval(0, 0);
         }
 
-//        clipboardEntries.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                // done to stop scrolling through table rows when enter was pressed
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB) {
-//                    e.consume();
-//                }
-//            }
-//        });
+        clipboardEntries.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), "focusNextComponent");
+        clipboardEntries.getActionMap().put("focusNextComponent", new ForwardFocusAction(clipboardEntries));
+
+        clipboardEntries.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "cancel");
     }
 
     public int getSelectedRow() {
@@ -151,5 +152,17 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
     private javax.swing.JEditorPane content;
     // End of variables declaration//GEN-END:variables
 
+    private static class ForwardFocusAction extends AbstractAction {
+        private JComponent component;
+
+        public ForwardFocusAction(JComponent component) {
+            this.component = component;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            FocusManager.getCurrentKeyboardFocusManager().focusNextComponent(component);
+        }
+    }
     
 }

@@ -2,10 +2,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>b2s</groupId>
-    <artifactId>multi-clipboard</artifactId>
+    <artifactId>history-clipboard</artifactId>
     <packaging>nbm</packaging>
     <version>0.1-SNAPSHOT</version>
-    <name>Multi-Clipboard</name>
+    <name>History Clipboard</name>
+
+    <description>
+        A clipboard that keeps track of past things copied so you can paste them later
+    </description>
 
     <properties>
         <platform.version>RELEASE69</platform.version>

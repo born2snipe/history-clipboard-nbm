@@ -18,9 +18,9 @@
  
     <folder name="Actions">
         <folder name="Edit">
-            <file name="b2s-clipboard-multi-PasteFromHistoryAction.instance">
-                <attr name="delegate" newvalue="b2s.clipboard.multi.PasteFromHistoryAction"/>
-                <attr name="displayName" bundlevalue="b2s.clipboard.multi.Bundle#CTL_PasteFromHistoryAction"/>
+            <file name="b2s-clipboard-history-PasteFromHistoryAction.instance">
+                <attr name="delegate" newvalue="b2s.clipboard.history.PasteFromHistoryAction"/>
+                <attr name="displayName" bundlevalue="b2s.clipboard.history.Bundle#CTL_PasteFromHistoryAction"/>
                 <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
                 <attr name="noIconInMenu" boolvalue="false"/>
             </file>
@@ -28,15 +28,15 @@
     </folder>
     <folder name="Menu">
         <folder name="Edit">
-            <file name="b2s-clipboard-multi-PasteFromHistoryAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Edit/b2s-clipboard-multi-PasteFromHistoryAction.instance"/>
+            <file name="b2s-clipboard-history-PasteFromHistoryAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Edit/b2s-clipboard-history-PasteFromHistoryAction.instance"/>
                 <attr name="position" intvalue="1250"/>
             </file>
         </folder>
     </folder>
     <folder name="Shortcuts">
         <file name="SM-V.shadow">
-            <attr name="originalFile" stringvalue="Actions/Edit/b2s-clipboard-multi-PasteFromHistoryAction.instance"/>
+            <attr name="originalFile" stringvalue="Actions/Edit/b2s-clipboard-history-PasteFromHistoryAction.instance"/>
         </file>
     </folder>
 </filesystem>

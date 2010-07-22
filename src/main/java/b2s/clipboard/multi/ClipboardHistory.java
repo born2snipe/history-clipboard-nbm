@@ -48,4 +48,8 @@ public class ClipboardHistory {
     public void moveToTop(int row) {
         contents.addFirst(contents.remove(row));
     }
+
+    public boolean hasContents() {
+        return contents.size() > 0;
+    }
 }

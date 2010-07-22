@@ -13,14 +13,18 @@
 
 package b2s.clipboard.multi;
 
-import java.awt.event.KeyListener;
+import java.awt.Color;
+import java.awt.Component;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 
 public class ClipboardHistoryPanel extends javax.swing.JPanel {
     public static final int ID_WIDTH = 30;
+    private int selectedRow;
 
     public ClipboardHistoryPanel(ClipboardHistory clipboardHistory) {
         initComponents();
@@ -33,6 +37,16 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
         idColumn.setPreferredWidth(ID_WIDTH);
         idColumn.setMaxWidth(ID_WIDTH);
         idColumn.setMinWidth(ID_WIDTH);
+        idColumn.setCellRenderer(new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (!isSelected) {
+                    component.setForeground(Color.GRAY);
+                }
+                return component;
+            }
+        });
 
         clipboardEntries.getColumnModel().getColumn(1).setCellRenderer(new ClipboardContentsCellRenderer());
 
@@ -46,13 +60,28 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
                 }
                 content.setText(text);
                 content.setCaretPosition(0);
+                selectedRow = row;
             }
         });
 
-        for (KeyListener keyListener : clipboardEntries.getKeyListeners()) {
-            clipboardEntries.removeKeyListener(keyListener);
+        
+        if (clipboardHistory.hasContents()) {
+            clipboardEntries.setRowSelectionInterval(0, 0);
         }
 
+//        clipboardEntries.addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//                // done to stop scrolling through table rows when enter was pressed
+//                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB) {
+//                    e.consume();
+//                }
+//            }
+//        });
+    }
+
+    public int getSelectedRow() {
+        return selectedRow;
     }
 
     /** This method is called from within the constructor to
@@ -122,4 +151,5 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
     private javax.swing.JEditorPane content;
     // End of variables declaration//GEN-END:variables
 
+    
 }

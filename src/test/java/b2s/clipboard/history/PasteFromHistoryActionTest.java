@@ -32,7 +32,7 @@ public class PasteFromHistoryActionTest {
         clipboardHistory = mock(ClipboardHistory.class);
         clipboard = mock(ExClipboard.class);
 
-        action = new PasteFromHistoryAction();
+        action = new PasteFromHistoryAction(null);
         action.setHistoryDialogDisplayer(dialogDisplayer);
         action.setClipboardHistory(clipboardHistory);
         action.setClipboard(clipboard);

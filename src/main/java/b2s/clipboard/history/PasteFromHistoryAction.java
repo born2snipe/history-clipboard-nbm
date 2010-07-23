@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import org.openide.actions.PasteAction;
+import org.openide.cookies.EditorCookie;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.datatransfer.ExClipboard;
@@ -28,7 +29,7 @@ public class PasteFromHistoryAction implements ActionListener   {
     private PasteAction pasteAction;
     private HistoryDialogDisplayer dialogDisplayer;
 
-    public PasteFromHistoryAction() {
+    public PasteFromHistoryAction(List<EditorCookie> context) {
         dialogDisplayer = new HistoryDialogDisplayer();
         clipboardHistory = ClipboardHistoryInstaller.CLIPBOARD_HISTORY;
         clipboard = Lookup.getDefault().lookup(ExClipboard.class);

@@ -28,12 +28,13 @@ public class PasteFromHistoryAction implements ActionListener   {
     private ExClipboard clipboard;
     private PasteAction pasteAction;
     private HistoryDialogDisplayer dialogDisplayer;
+    private TextPaster textPaster;
 
     public PasteFromHistoryAction(List<EditorCookie> context) {
         dialogDisplayer = new HistoryDialogDisplayer();
         clipboardHistory = ClipboardHistoryInstaller.CLIPBOARD_HISTORY;
         clipboard = Lookup.getDefault().lookup(ExClipboard.class);
-//        pasteAction = Lookup.getDefault().lookup(PasteAction.class);
+        textPaster = new TextPaster();
     }
 
     @Override
@@ -44,6 +45,7 @@ public class PasteFromHistoryAction implements ActionListener   {
                 clipboardHistory.moveToTop(row);
                 StringSelection string = new StringSelection(clipboardHistory.top());
                 clipboard.setContents(string, string);
+                textPaster.paste(clipboardHistory.top());
             }
         }
     }
@@ -58,5 +60,9 @@ public class PasteFromHistoryAction implements ActionListener   {
 
     void setClipboard(ExClipboard clipboard) {
         this.clipboard = clipboard;
+    }
+
+    void setTextPaster(TextPaster paster) {
+        this.textPaster = paster;
     }
 }

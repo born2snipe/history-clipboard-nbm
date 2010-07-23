@@ -25,17 +25,20 @@ public class PasteFromHistoryActionTest {
     ClipboardHistory clipboardHistory;
     ExClipboard clipboard;
     PasteFromHistoryAction action;
+    TextPaster paster;
 
     @Before
     public void init() {
         dialogDisplayer = mock(HistoryDialogDisplayer.class);
         clipboardHistory = mock(ClipboardHistory.class);
         clipboard = mock(ExClipboard.class);
+        paster = mock(TextPaster.class);
 
         action = new PasteFromHistoryAction(null);
         action.setHistoryDialogDisplayer(dialogDisplayer);
         action.setClipboardHistory(clipboardHistory);
         action.setClipboard(clipboard);
+        action.setTextPaster(paster);
     }
 
         @Test
@@ -55,12 +58,12 @@ public class PasteFromHistoryActionTest {
 
         action.actionPerformed(null);
 
-        verifyZeroInteractions(clipboard);
+        verifyZeroInteractions(clipboard, paster);
     }
 
     @Test
     public void hasClipboardContentsAndUserSelectsSomethingToPaste() {
-        InOrder inOrder = inOrder(clipboardHistory, clipboard);
+        InOrder inOrder = inOrder(clipboardHistory, clipboard, paster);
 
         when(clipboardHistory.hasContents()).thenReturn(true);
         when(dialogDisplayer.display(clipboardHistory)).thenReturn(1);
@@ -72,5 +75,7 @@ public class PasteFromHistoryActionTest {
 
         inOrder.verify(clipboardHistory).moveToTop(1);
         inOrder.verify(clipboard).setContents(isA(StringSelection.class), isA(StringSelection.class));
+        inOrder.verify(paster).paste("value");
+
     }
 }

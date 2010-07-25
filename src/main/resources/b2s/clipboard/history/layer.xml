@@ -19,13 +19,7 @@
     <folder name="Actions">
         <folder name="Edit">
             <file name="b2s-clipboard-history-PasteFromHistoryAction.instance">
-                <attr name="delegate" methodvalue="org.openide.awt.Actions.inject"/>
-                <attr name="displayName" bundlevalue="b2s.clipboard.history.Bundle#CTL_PasteFromHistoryAction"/>
-                <attr name="injectable" stringvalue="b2s.clipboard.history.PasteFromHistoryAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="selectionType" stringvalue="ANY"/>
-                <attr name="type" stringvalue="org.openide.cookies.EditorCookie"/>
+                <attr name="instanceClass" stringvalue="b2s.clipboard.history.PasteFromHistoryAction"/>
             </file>
         </folder>
     </folder>

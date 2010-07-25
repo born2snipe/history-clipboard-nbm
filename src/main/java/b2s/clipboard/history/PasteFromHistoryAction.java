@@ -15,40 +15,82 @@ package b2s.clipboard.history;
 
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-import org.openide.actions.PasteAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.JEditorPane;
 import org.openide.cookies.EditorCookie;
+import org.openide.nodes.Node;
+import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
+import org.openide.util.actions.CookieAction;
 import org.openide.util.datatransfer.ExClipboard;
 
-public class PasteFromHistoryAction implements ActionListener   {
+public class PasteFromHistoryAction extends CookieAction   {
     private ClipboardHistory clipboardHistory;
     private ExClipboard clipboard;
-    private PasteAction pasteAction;
     private HistoryDialogDisplayer dialogDisplayer;
-    private TextPaster textPaster;
+    private EditorCookieUtil editorCookieUtil;
 
-    public PasteFromHistoryAction(List<EditorCookie> context) {
+    public PasteFromHistoryAction() {
         dialogDisplayer = new HistoryDialogDisplayer();
         clipboardHistory = ClipboardHistoryInstaller.CLIPBOARD_HISTORY;
         clipboard = Lookup.getDefault().lookup(ExClipboard.class);
-        textPaster = new TextPaster();
+        editorCookieUtil = new EditorCookieUtil();
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    protected boolean enable(Node[] activatedNodes) {
+        if (editorCookieUtil.hasEditor(activatedNodes)) {
+            final JEditorPane editor = editorCookieUtil.editor(activatedNodes);
+            ActionMap actions = editor.getActionMap();
+            return actions.get("paste").isEnabled();
+        }
+        return false;
+    }
+
+    @Override
+    protected int mode() {
+        return CookieAction.MODE_EXACTLY_ONE;
+    }
+
+    @Override
+    protected Class<?>[] cookieClasses() {
+        return new Class[]{EditorCookie.class};
+    }
+
+    @Override
+    protected void performAction(Node[] nodes) {
         if (clipboardHistory.hasContents()) {
             int row = dialogDisplayer.display(clipboardHistory);
             if (row >= 0) {
                 clipboardHistory.moveToTop(row);
                 StringSelection string = new StringSelection(clipboardHistory.top());
                 clipboard.setContents(string, string);
-                textPaster.paste(clipboardHistory.top());
+
+                JEditorPane editor = editorCookieUtil.editor(nodes);
+                ActionMap actions = editor.getActionMap();
+                Action paste = actions.get("paste");
+                paste.actionPerformed(new ActionEvent(editor, editor.hashCode(), ""));
             }
         }
     }
+
+    @Override
+    public String getName() {
+        return NbBundle.getMessage(PasteFromHistoryAction.class, "CTL_PasteFromHistoryAction");
+    }
+
+    @Override
+    public HelpCtx getHelpCtx() {
+        return HelpCtx.DEFAULT_HELP;
+    }
+
+    @Override
+    protected boolean asynchronous() {
+        return false;
+    }
+
 
     void setHistoryDialogDisplayer(HistoryDialogDisplayer dialogDisplayer) {
         this.dialogDisplayer = dialogDisplayer;
@@ -62,7 +104,9 @@ public class PasteFromHistoryAction implements ActionListener   {
         this.clipboard = clipboard;
     }
 
-    void setTextPaster(TextPaster paster) {
-        this.textPaster = paster;
+    void setEditorCookieUtil(EditorCookieUtil editorCookieUtil) {
+        this.editorCookieUtil = editorCookieUtil;
     }
+
+
 }

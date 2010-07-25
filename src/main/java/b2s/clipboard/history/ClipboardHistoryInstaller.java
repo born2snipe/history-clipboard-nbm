@@ -13,17 +13,21 @@
 
 package b2s.clipboard.history;
 
+import java.awt.Frame;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Lookup;
 import org.openide.util.datatransfer.ClipboardEvent;
 import org.openide.util.datatransfer.ClipboardListener;
 import org.openide.util.datatransfer.ExClipboard;
+import org.openide.windows.WindowManager;
 
-public class ClipboardHistoryInstaller extends ModuleInstall implements ClipboardListener {
+public class ClipboardHistoryInstaller extends ModuleInstall implements ClipboardListener, WindowFocusListener {
     public static ClipboardHistory CLIPBOARD_HISTORY;
 
     @Override
@@ -32,6 +36,9 @@ public class ClipboardHistoryInstaller extends ModuleInstall implements Clipboar
         ExClipboard clipboard = Lookup.getDefault().lookup(ExClipboard.class);
         clipboard.addClipboardListener(this);
         addClipboardContentsToHistory(clipboard);
+
+        Frame window = WindowManager.getDefault().getMainWindow();
+        window.addWindowFocusListener(this);
     }
 
     @Override
@@ -47,5 +54,16 @@ public class ClipboardHistoryInstaller extends ModuleInstall implements Clipboar
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    public void windowGainedFocus(WindowEvent e) {
+        ExClipboard clipboard = Lookup.getDefault().lookup(ExClipboard.class);
+        addClipboardContentsToHistory(clipboard);
+    }
+
+    @Override
+    public void windowLostFocus(WindowEvent e) {
+
     }
 }

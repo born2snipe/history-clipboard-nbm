@@ -13,20 +13,17 @@
 
 package b2s.clipboard.history;
 
-import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
+import javax.swing.JEditorPane;
+import org.openide.cookies.EditorCookie;
+import org.openide.nodes.Node;
 
-public class TextPaster {
-    public void paste(String text, JTextComponent textComponent) {
-        if (textComponent.getSelectionStart() >= 0) {
-            textComponent.replaceSelection(text);
-        } else {
-            try {
-                textComponent.getDocument().insertString(textComponent.getCaretPosition(), text, null);
-            } catch (BadLocationException ex) {
+public class EditorCookieUtil {
+    public boolean hasEditor(Node[] nodes) {
+        return nodes[0].getLookup().lookup(EditorCookie.class) != null;
+    }
 
-            }
-        }
-
+    public JEditorPane editor(Node[] nodes) {
+        EditorCookie cookie = nodes[0].getLookup().lookup(EditorCookie.class);
+        return cookie.getOpenedPanes()[0];
     }
 }

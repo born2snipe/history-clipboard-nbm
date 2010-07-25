@@ -21,29 +21,26 @@ import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 public class TextPasterTest {
-    CurrentEditorRetriever editorRetriever;
     JTextComponent textComponent;
     TextPaster paster;
     Document document;
 
     @Before
     public void setUp() {
-        editorRetriever = mock(CurrentEditorRetriever.class);
         textComponent = mock(JTextComponent.class);
         document = mock(Document.class);
 
         paster = new TextPaster();
-        paster.setCurrentEditorRetriever(editorRetriever);
 
-        when(editorRetriever.retreive()).thenReturn(textComponent);
         when(textComponent.getDocument()).thenReturn(document);
+        when(textComponent.isEditable()).thenReturn(true);
     }
 
     @Test
     public void hasSelectedText() {
         when(textComponent.getSelectionStart()).thenReturn(0);
         
-        paster.paste("text");
+        paster.paste("text", textComponent);
 
         verify(textComponent).replaceSelection("text");
     }
@@ -53,7 +50,7 @@ public class TextPasterTest {
         when(textComponent.getSelectionStart()).thenReturn(-1);
         when(textComponent.getCaretPosition()).thenReturn(100);
 
-        paster.paste("text");
+        paster.paste("text", textComponent);
 
         verify(document).insertString(100, "text", null);
     }

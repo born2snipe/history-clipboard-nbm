@@ -19,11 +19,16 @@ import org.openide.nodes.Node;
 
 public class EditorCookieUtil {
     public boolean hasEditor(Node[] nodes) {
+        if (nodes.length == 0)
+            return false;
         return nodes[0].getLookup().lookup(EditorCookie.class) != null;
     }
 
     public JEditorPane editor(Node[] nodes) {
-        EditorCookie cookie = nodes[0].getLookup().lookup(EditorCookie.class);
-        return cookie.getOpenedPanes()[0];
+        if (hasEditor(nodes)) {
+            EditorCookie cookie = nodes[0].getLookup().lookup(EditorCookie.class);
+            return cookie.getOpenedPanes()[0];
+        }
+        return null;
     }
 }

@@ -31,12 +31,12 @@
             </file>
         </folder>
     </folder>
-    <folder name="Shortcuts">
+<!--    <folder name="Shortcuts">
         <file name="SM-V.shadow">
             <attr name="originalFile" stringvalue="Actions/Edit/b2s-clipboard-history-PasteFromHistoryAction.instance"/>
         </file>
         <file name="SA-V.shadow">
             <attr name="originalFile" stringvalue="Actions/Edit/b2s-clipboard-history-PasteFromHistoryAction.instance"/>
         </file>
-    </folder>
+    </folder>-->
 </filesystem>

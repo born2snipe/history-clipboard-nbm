@@ -16,17 +16,13 @@ package b2s.clipboard.history;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.ActionMap;
-import org.openide.nodes.Children;
-import org.openide.nodes.AbstractNode;
 import javax.swing.JEditorPane;
-import org.openide.cookies.EditorCookie;
 import org.openide.nodes.Node;
 import org.junit.Before;
 import java.awt.datatransfer.StringSelection;
 import org.mockito.InOrder;
 import org.openide.util.datatransfer.ExClipboard;
 import org.junit.Test;
-import org.openide.util.Lookup;
 import static org.mockito.Mockito.*;
 
 public class PasteFromHistoryActionTest {

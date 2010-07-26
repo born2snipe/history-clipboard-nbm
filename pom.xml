@@ -174,4 +174,10 @@
 
         </plugins>
     </build>
+
+    <scm>
+         <developerConnection>scm:git:git://github.com/born2snipe/history-clipboard-nbm.git</developerConnection>
+    </scm>
+
+
 </project>

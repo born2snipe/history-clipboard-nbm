@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>b2s</groupId>
     <artifactId>history-clipboard</artifactId>
@@ -171,43 +170,14 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>make-sure-keystore-properties-are-given</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireProperty>
-                                            <property>keystore.file</property>
-                                            <message>"You must provide the keystore to sign the NBM"</message>
-                                        </requireProperty>
-                                        <requireProperty>
-                                            <property>keystore.alias</property>
-                                            <message>"You must provide the keystore alias"</message>
-                                        </requireProperty>
-                                        <requireProperty>
-                                            <property>keystore.password</property>
-                                            <message>"You must provide the keystore password"</message>
-                                        </requireProperty>
-                                    </rules>
-                                    <fail>true</fail>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>nbm-maven-plugin</artifactId>
                         <version>3.2</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <keystore>${keystore.file}</keystore>
-                            <keystorealias>${keystore.alias}</keystorealias>
-                            <keystorepassword>${keystore.password}</keystorepassword>
+                            <keystore>../${basedir}/netbeans-plugin-keystore</keystore>
+                            <keystorealias>netbeans-plugin</keystorealias>
+                            <keystorepassword>p@ssw0rd</keystorepassword>
                         </configuration>
                     </plugin>
                     <plugin>

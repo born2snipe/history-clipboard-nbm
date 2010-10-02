@@ -175,7 +175,7 @@
                         <version>3.2</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <keystore>../${basedir}/netbeans-plugin-keystore</keystore>
+                            <keystore>${basedir}/../netbeans-plugin-keystore</keystore>
                             <keystorealias>netbeans-plugin</keystorealias>
                             <keystorepassword>p@ssw0rd</keystorepassword>
                         </configuration>

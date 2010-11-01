@@ -14,12 +14,8 @@
 package b2s.clipboard.history;
 
 import java.awt.Frame;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.io.IOException;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Lookup;
 import org.openide.util.datatransfer.ClipboardEvent;
@@ -28,6 +24,7 @@ import org.openide.util.datatransfer.ExClipboard;
 import org.openide.windows.WindowManager;
 
 public class ClipboardHistoryInstaller extends ModuleInstall implements ClipboardListener, WindowFocusListener {
+    private static final ClipboardContentGrabber CLIPBOARD_CONTENT_GRABBER = new ClipboardContentGrabber();
     public static ClipboardHistory CLIPBOARD_HISTORY;
 
     @Override
@@ -35,31 +32,29 @@ public class ClipboardHistoryInstaller extends ModuleInstall implements Clipboar
         CLIPBOARD_HISTORY = new ClipboardHistory();
         ExClipboard clipboard = Lookup.getDefault().lookup(ExClipboard.class);
         clipboard.addClipboardListener(this);
-        addClipboardContentsToHistory(clipboard);
+        addClipboardContentsToHistory();
 
-        Frame window = WindowManager.getDefault().getMainWindow();
-        window.addWindowFocusListener(this);
+        WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
+            @Override
+            public void run() {
+                Frame window = WindowManager.getDefault().getMainWindow();
+                window.addWindowFocusListener(ClipboardHistoryInstaller.this);
+            }
+        });
     }
 
     @Override
     public void clipboardChanged(ClipboardEvent ce) {
-        addClipboardContentsToHistory(ce.getClipboard());
+        addClipboardContentsToHistory();
     }
 
-    private void addClipboardContentsToHistory(ExClipboard clipboard) {
-        try {
-            Transferable contents = clipboard.getContents(null);
-            CLIPBOARD_HISTORY.add((String) contents.getTransferData(DataFlavor.stringFlavor));
-        } catch (UnsupportedFlavorException ex) {
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+    private void addClipboardContentsToHistory() {
+        CLIPBOARD_HISTORY.add(CLIPBOARD_CONTENT_GRABBER.grab());
     }
 
     @Override
     public void windowGainedFocus(WindowEvent e) {
-        ExClipboard clipboard = Lookup.getDefault().lookup(ExClipboard.class);
-        addClipboardContentsToHistory(clipboard);
+        addClipboardContentsToHistory();
     }
 
     @Override

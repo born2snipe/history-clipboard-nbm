@@ -13,12 +13,7 @@
 
 package b2s.clipboard.history;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
 import java.util.concurrent.ExecutionException;
-import javax.swing.SwingWorker;
-import org.openide.util.Lookup;
-import org.openide.util.datatransfer.ExClipboard;
 
 public class ClipboardContentGrabber {
     public String grab() {
@@ -31,15 +26,5 @@ public class ClipboardContentGrabber {
         } catch (ExecutionException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    private static class ClipboardContentWorker extends SwingWorker<String, String> {
-        @Override
-        protected String doInBackground() throws Exception {
-            ExClipboard clipboard = Lookup.getDefault().lookup(ExClipboard.class);
-            Transferable contents = clipboard.getContents(null);
-            return (String) contents.getTransferData(DataFlavor.stringFlavor);
-        }
-
     }
 }

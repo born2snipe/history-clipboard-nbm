@@ -30,6 +30,8 @@ public class ClipboardHistory {
     }
 
     public void add(String text) {
+        if (text == null) return;
+        
         if (!contents.contains(text)) {
             contents.addFirst(text);
         } else {
@@ -54,6 +56,6 @@ public class ClipboardHistory {
     }
 
     public String top() {
-        return contents.getFirst();
+        return hasContents() ? contents.getFirst() : null;
     }
 }

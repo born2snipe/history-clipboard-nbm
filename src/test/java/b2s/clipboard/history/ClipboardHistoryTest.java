@@ -75,4 +75,13 @@ public class ClipboardHistoryTest {
         assertTrue(history.hasContents());
         assertEquals("text2", history.top());
     }
+    
+    @Test
+    public void nullShouldNotBeAdded() {
+        history.add(null);
+
+        assertEquals(0, history.toList().size());
+        assertFalse(history.hasContents());
+        assertNull(history.top());
+    }
 }

@@ -79,6 +79,8 @@ public class ClipboardHistoryPanel extends javax.swing.JPanel {
         clipboardEntries.getActionMap().put("focusNextComponent", new ForwardFocusAction(clipboardEntries));
 
         clipboardEntries.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "cancel");
+        
+        clipboardEntries.addKeyListener(new WrappedScrollingListener(clipboardEntries));
     }
 
     public int getSelectedRow() {

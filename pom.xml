@@ -194,7 +194,9 @@
     </profiles>
 
     <scm>
-        <developerConnection>scm:git:git://github.com/born2snipe/history-clipboard-nbm.git</developerConnection>
+        <connection>scm:git:git://github.com/born2snipe/history-clipboard-nbm.git</connection>
+        <url>scm:git:git://github.com/born2snipe/history-clipboard-nbm.git</url>
+        <developerConnection>scm:git:git@github.com:born2snipe/history-clipboard-nbm.git</developerConnection>
     </scm>
 
 

@@ -4,7 +4,7 @@
     <parent>
         <groupId>b2s</groupId>
         <artifactId>netbean-plugin-parent</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
     </parent>
 
 
@@ -13,10 +13,6 @@
     <packaging>nbm</packaging>
     <version>0.9-SNAPSHOT</version>
     <name>History Clipboard</name>
-
-    <organization>
-        <name>Dan Dudley</name>
-    </organization>
 
     <description>
         A clipboard that keeps track of past things copied so you can paste them later

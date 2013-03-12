@@ -19,7 +19,7 @@
     </description>
 
     <properties>
-        <platform.version>RELEASE72</platform.version>
+        <platform.version>RELEASE73</platform.version>
     </properties>
 
 
@@ -67,7 +67,7 @@
         <dependency>
             <groupId>org.netbeans.external</groupId>
             <artifactId>swing-layout-1.0.4</artifactId>
-            <version>${platform.version}1</version>
+            <version>${platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>

@@ -29,9 +29,9 @@ public class ClipboardHistory {
         this.maxNumberOfContents = maxNumberOfContents;
     }
 
-    public void add(String text) {
+    public synchronized void add(String text) {
         if (text == null) return;
-        
+
         if (!contents.contains(text)) {
             contents.addFirst(text);
         } else {
@@ -43,19 +43,19 @@ public class ClipboardHistory {
         }
     }
 
-    public List<String> toList() {
+    public synchronized List<String> toList() {
         return Collections.unmodifiableList(contents);
     }
 
-    public void moveToTop(int row) {
+    public synchronized void moveToTop(int row) {
         contents.addFirst(contents.remove(row));
     }
 
-    public boolean hasContents() {
+    public synchronized boolean hasContents() {
         return contents.size() > 0;
     }
 
-    public String top() {
+    public synchronized String top() {
         return hasContents() ? contents.getFirst() : null;
     }
 }

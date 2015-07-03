@@ -11,7 +11,7 @@
     <groupId>b2s</groupId>
     <artifactId>history-clipboard</artifactId>
     <packaging>nbm</packaging>
-    <version>0.12-SNAPSHOT</version>
+    <version>0.12</version>
     <name>History Clipboard</name>
 
     <description>
@@ -97,7 +97,7 @@
         <connection>scm:git:git@github.com:born2snipe/history-clipboard-nbm.git</connection>
         <url>git@github.com:born2snipe/history-clipboard-nbm.git</url>
         <developerConnection>scm:git:git@github.com:born2snipe/history-clipboard-nbm.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>0.12</tag>
     </scm>
 
 
